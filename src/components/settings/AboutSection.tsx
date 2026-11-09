@@ -20,7 +20,7 @@ import { useUpdate } from "@/contexts/UpdateContext";
 import { Badge } from "@/components/ui/badge";
 import { WhatsNewDialog } from "@/components/WhatsNewDialog";
 import { WHATS_NEW_ENTRIES, entriesUpTo } from "@/lib/whatsNew";
-import wisaLogo from "@/assets/icons/logo.svg";
+import wisaLogo from "@/assets/brand/wisa-logo-badge.png";
 import { extractErrorMessage } from "@/utils/errorUtils";
 
 interface AboutSectionProps {

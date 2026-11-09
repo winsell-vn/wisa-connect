@@ -72,6 +72,18 @@ Không dùng chung thư mục với cc-switch để hai app không ghi đè conf
 - Giao diện mặc định tiếng Việt (`src/i18n/locales/vi.json`, thiếu key thì rơi về tiếng Anh),
   icon và tên sản phẩm đã đổi, updater trỏ `assets.winsell.vn/wisa-connect`.
 
+Logo lấy nguyên bản từ `apps/web/public/branding/wisa-logo-badge.png` của repo web, chép
+nguyên byte vào `src/assets/brand/` — không vẽ lại. Muốn đổi icon thì sửa tệp nguồn ở repo
+web, chép lại, rồi chạy:
+
+```powershell
+pnpm tauri icon src/assets/brand/wisa-logo-badge.png
+```
+
+Lệnh đó ghi đè toàn bộ `src-tauri/icons/`, trừ ba ảnh tray macOS
+(`src-tauri/icons/tray/macos/`), vốn là ảnh template một màu nên phải tạo riêng từ
+`src/assets/brand/wisa-logo.png`.
+
 Chưa xong:
 
 - **Chưa có chứng chỉ Authenticode.** Thiếu nó, SmartScreen sẽ chặn lần cài đầu — rào cản

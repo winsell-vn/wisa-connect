@@ -45,7 +45,7 @@ import { useSidebarStatus, type AppNavStatus } from "@/hooks/useSidebarStatus";
 import { HoverTip } from "@/components/ui/hover-tip";
 import { DRAG_REGION_ATTR, DRAG_REGION_STYLE, isMac } from "@/lib/platform";
 import { cn } from "@/lib/utils";
-import wisaLogo from "@/assets/icons/logo.svg";
+import wisaLogo from "@/assets/brand/wisa-logo-badge.png";
 import { APP_DISPLAY_NAME, AppGlyph } from "./AppGlyph";
 
 const NO_DRAG = { WebkitAppRegion: "no-drag" } as React.CSSProperties;
