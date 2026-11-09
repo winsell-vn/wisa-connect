@@ -1,0 +1,27 @@
+{
+  "nav": {
+    "advancedMode": "Chế độ nâng cao",
+    "advancedModeTitle": "Hiện các công cụ nâng cao",
+    "apps": "Ứng dụng",
+    "appsGroup": "Ứng dụng",
+    "appsTitle": "Cài đặt ứng dụng",
+    "appsHasUpdate": "Có bản cập nhật ứng dụng",
+    "auth": "Tài khoản",
+    "authNeedsReauth": "Cần đăng nhập lại",
+    "collapseSidebar": "Thu gọn thanh bên",
+    "expandSidebar": "Mở rộng thanh bên",
+    "mainLabel": "Điều hướng chính",
+    "needsAttention": "Cần chú ý",
+    "prompts": "Prompt",
+    "sessions": "Phiên làm việc",
+    "settings": "Cài đặt",
+    "settingsHasUpdate": "Có bản cập nhật",
+    "skipToContent": "Tới nội dung chính",
+    "today": "Hôm nay: {{value}}",
+    "usage": "Mức sử dụng"
+  },
+  "settings": {
+    "languageOptionEnglish": "English",
+    "languageOptionVietnamese": "Tiếng Việt"
+  }
+}
