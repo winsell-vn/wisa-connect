@@ -113,7 +113,8 @@ key **không** nằm trong repo (`.gitignore` chặn `*.key`, `*.key.pub`). Đ�
 
 ## Repo công khai
 
-Repo này công khai, nên:
+Repo: **https://github.com/winsell-vn/wisa-connect** (public, thuộc org `winsell-vn`).
+Secret scanning và push protection đã bật.
 
 - **Không commit secret nào.** `TAURI_SIGNING_PRIVATE_KEY`, `WINDOWS_CERTIFICATE`, `APPLE_*`
   nằm ở GitHub Actions Secrets. Backend (`apps/api`) và web vẫn ở repo riêng, private.
