@@ -119,7 +119,7 @@ export function AboutSection({ isPortable }: AboutSectionProps) {
   }, [t, updateInfo?.availableVersion, version]);
 
   const handleOpenGithub = useCallback(() => {
-    void settingsApi.openExternal("https://wisa.vn");
+    void settingsApi.openExternal("https://github.com/winsell-vn/wisa-connect");
   }, []);
 
   const handleDismissStarPrompt = useCallback(() => {
