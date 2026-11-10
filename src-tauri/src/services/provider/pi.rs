@@ -418,7 +418,8 @@ mod tests {
             .expect("global default must not block removal");
         assert!(!crate::pi_config::pi_provider_exists("wisa-connect-test").unwrap());
 
-        ProviderService::switch(&state, AppType::Pi, "wisa-connect-test").expect("re-enable provider");
+        ProviderService::switch(&state, AppType::Pi, "wisa-connect-test")
+            .expect("re-enable provider");
         ProviderService::delete(&state, AppType::Pi, "wisa-connect-test")
             .expect("global default must not block deletion");
         assert!(state
@@ -503,8 +504,12 @@ mod tests {
         let mut external = saved.settings_config.clone();
         external["name"] = json!("External edit");
         external["models"][0]["contextWindow"] = json!(1_000_000.0);
-        crate::pi_config::replace_pi_provider("wisa-connect-test", &saved.settings_config, &external)
-            .expect("edit native provider");
+        crate::pi_config::replace_pi_provider(
+            "wisa-connect-test",
+            &saved.settings_config,
+            &external,
+        )
+        .expect("edit native provider");
 
         let listed = ProviderService::list(&state, AppType::Pi).expect("sync native providers");
         assert_eq!(listed["wisa-connect-test"].name, "External edit");
@@ -544,7 +549,8 @@ mod tests {
         let mut local = listed["wisa-connect-test"].clone();
         local.name = "Local edit".to_string();
         local.settings_config["name"] = json!("Local edit");
-        update(&state, Some("wisa-connect-test"), local).expect("edit the refreshed native provider");
+        update(&state, Some("wisa-connect-test"), local)
+            .expect("edit the refreshed native provider");
         assert_eq!(
             crate::pi_config::read_pi_native_provider("wisa-connect-test")
                 .expect("read native provider")
@@ -562,8 +568,13 @@ mod tests {
 
         let mut edited = input("model-b");
         edited.settings_config["unknownField"] = json!({ "keep": true });
-        ProviderService::update(&state, AppType::Pi, Some("wisa-connect-test"), edited.clone())
-            .expect("edit enabled provider");
+        ProviderService::update(
+            &state,
+            AppType::Pi,
+            Some("wisa-connect-test"),
+            edited.clone(),
+        )
+        .expect("edit enabled provider");
 
         assert_eq!(
             crate::pi_config::read_pi_native_provider("wisa-connect-test")
@@ -737,7 +748,10 @@ mod tests {
             .expect("enable copied provider");
         let providers = ProviderService::list(&state, AppType::Pi).expect("sync providers");
 
-        assert_eq!(providers["wisa-connect-test-copy"].name, "Test provider copy");
+        assert_eq!(
+            providers["wisa-connect-test-copy"].name,
+            "Test provider copy"
+        );
         assert_eq!(
             providers["wisa-connect-test-copy"].settings_config["name"],
             json!("Test provider copy")
@@ -779,8 +793,10 @@ mod tests {
             .get_provider_by_id("wisa-connect-test-copy", PI_APP)
             .expect("read saved provider")
             .is_none());
-        assert!(crate::pi_config::pi_provider_exists("wisa-connect-test-copy")
-            .expect("read native provider"));
+        assert!(
+            crate::pi_config::pi_provider_exists("wisa-connect-test-copy")
+                .expect("read native provider")
+        );
 
         let providers = ProviderService::list(&state, AppType::Pi).expect("sync native provider");
         assert_eq!(providers["wisa-connect-test-copy"].name, "Native OAuth");
@@ -867,7 +883,8 @@ mod tests {
 
         ProviderService::remove_from_live_config(&state, AppType::Pi, "wisa-connect-test")
             .expect("global selection is advisory for removal");
-        ProviderService::switch(&state, AppType::Pi, "wisa-connect-test").expect("re-enable provider");
+        ProviderService::switch(&state, AppType::Pi, "wisa-connect-test")
+            .expect("re-enable provider");
         ProviderService::delete(&state, AppType::Pi, "wisa-connect-test")
             .expect("global selection is advisory for deletion");
         assert!(!crate::pi_config::pi_provider_exists("wisa-connect-test").unwrap());

@@ -1,0 +1,14 @@
+# Code owners for WISA Connect.
+# https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-code-owners
+
+# Default owner for everything.
+* @winsell-vn/maintainers
+
+# CI, release pipeline and dependency policy.
+/.github/ @winsell-vn/maintainers
+
+# Credential storage, signing and the updater are the security-critical
+# surfaces of this app. They get the same reviewers as the release pipeline.
+/src-tauri/src/wisa/ @winsell-vn/maintainers
+/src-tauri/tauri.conf.json @winsell-vn/maintainers
+/src-tauri/tauri.windows.conf.json @winsell-vn/maintainers

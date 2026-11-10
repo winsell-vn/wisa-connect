@@ -189,8 +189,7 @@ export function WisaGate({ children }: { children: ReactNode }) {
   }, []);
 
   const value = useMemo<WisaAuthValue | null>(
-    () =>
-      session?.signedIn ? { session, refresh: load } : null,
+    () => (session?.signedIn ? { session, refresh: load } : null),
     [session, load],
   );
 

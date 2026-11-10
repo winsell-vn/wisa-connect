@@ -17,11 +17,7 @@ function mkProvider(overrides: Partial<Provider> = {}): Provider {
 const ENV_SCOPED_KIMI_KEY = `oauth/kimi-code-env-${"0e4f99c6"}${"9cc27850"}`;
 
 describe("Kimi official account identity", () => {
-  it.each([
-    "oauth/kimi-code",
-    "kimi-code",
-    ENV_SCOPED_KIMI_KEY,
-  ])(
+  it.each(["oauth/kimi-code", "kimi-code", ENV_SCOPED_KIMI_KEY])(
     "recognizes a native OAuth reference %s without relying on a legacy category",
     (key) => {
       const provider = mkProvider({

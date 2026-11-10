@@ -4743,7 +4743,10 @@ mod tests {
             }
         };
         assert_eq!(quit_text(&zh(), false), "退出 WISA Connect");
-        assert_eq!(quit_text(&zh(), true), "退出 WISA Connect（路由服务会停止）");
+        assert_eq!(
+            quit_text(&zh(), true),
+            "退出 WISA Connect（路由服务会停止）"
+        );
         assert_eq!(
             quit_text(&en(), true),
             "Quit WISA Connect (stops the routing service)"

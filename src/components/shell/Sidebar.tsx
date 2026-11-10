@@ -310,11 +310,7 @@ function MainDirectory({
           collapsed && "no-scrollbar",
         )}
       >
-        <div
-          role="group"
-          aria-label="WISA"
-          className="flex shrink-0 flex-col"
-        >
+        <div role="group" aria-label="WISA" className="flex shrink-0 flex-col">
           <NavItem
             collapsed={collapsed}
             selected={view === "wisa"}

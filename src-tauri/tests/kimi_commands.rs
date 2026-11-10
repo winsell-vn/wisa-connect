@@ -1,8 +1,8 @@
+use serde_json::json;
+use std::{ffi::OsString, fs};
 use wisa_connect_lib::{
     AppType, McpApps, McpServer, McpService, Prompt, PromptService, Provider, ProviderService,
 };
-use serde_json::json;
-use std::{ffi::OsString, fs};
 
 #[path = "support/mod.rs"]
 mod support;

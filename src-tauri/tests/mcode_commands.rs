@@ -1,6 +1,6 @@
-use wisa_connect_lib::{AppType, Prompt, PromptService, Provider, ProviderService};
 use serde_json::json;
 use std::fs;
+use wisa_connect_lib::{AppType, Prompt, PromptService, Provider, ProviderService};
 
 #[path = "support/mod.rs"]
 mod support;

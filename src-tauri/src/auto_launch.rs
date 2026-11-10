@@ -76,7 +76,8 @@ mod tests {
     #[cfg(target_os = "macos")]
     #[test]
     fn test_get_macos_app_bundle_path_valid() {
-        let exe_path = std::path::Path::new("/Applications/WISA Connect.app/Contents/MacOS/WISA Connect");
+        let exe_path =
+            std::path::Path::new("/Applications/WISA Connect.app/Contents/MacOS/WISA Connect");
         let result = get_macos_app_bundle_path(exe_path);
         assert_eq!(
             result,
@@ -87,8 +88,9 @@ mod tests {
     #[cfg(target_os = "macos")]
     #[test]
     fn test_get_macos_app_bundle_path_with_spaces() {
-        let exe_path =
-            std::path::Path::new("/Users/test/My Apps/WISA Connect.app/Contents/MacOS/WISA Connect");
+        let exe_path = std::path::Path::new(
+            "/Users/test/My Apps/WISA Connect.app/Contents/MacOS/WISA Connect",
+        );
         let result = get_macos_app_bundle_path(exe_path);
         assert_eq!(
             result,

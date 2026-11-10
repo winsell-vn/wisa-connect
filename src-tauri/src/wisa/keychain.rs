@@ -16,7 +16,8 @@ mod store {
     const ENTRY: &str = "refresh-token";
 
     fn entry() -> Result<keyring::Entry, String> {
-        keyring::Entry::new(SERVICE, ENTRY).map_err(|error| format!("Không mở được kho khoá hệ thống: {error}"))
+        keyring::Entry::new(SERVICE, ENTRY)
+            .map_err(|error| format!("Không mở được kho khoá hệ thống: {error}"))
     }
 
     pub fn save(token: &str) -> Result<(), String> {
@@ -29,14 +30,18 @@ mod store {
         match entry()?.get_password() {
             Ok(token) => Ok(Some(token)),
             Err(keyring::Error::NoEntry) => Ok(None),
-            Err(error) => Err(format!("Không đọc được phiên đăng nhập từ kho khoá: {error}")),
+            Err(error) => Err(format!(
+                "Không đọc được phiên đăng nhập từ kho khoá: {error}"
+            )),
         }
     }
 
     pub fn clear() -> Result<(), String> {
         match entry()?.delete_credential() {
             Ok(()) | Err(keyring::Error::NoEntry) => Ok(()),
-            Err(error) => Err(format!("Không xoá được phiên đăng nhập khỏi kho khoá: {error}")),
+            Err(error) => Err(format!(
+                "Không xoá được phiên đăng nhập khỏi kho khoá: {error}"
+            )),
         }
     }
 }

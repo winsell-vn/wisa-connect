@@ -223,7 +223,8 @@ fn test_parse_rejects_config_url_up_front() {
 #[test]
 fn test_parse_mcp_deeplink_accepts_pi_mcode_and_omp() {
     let config = BASE64_URL_SAFE_NO_PAD.encode(r#"{"mcpServers":{"fetch":{"command":"uvx"}}}"#);
-    let url = format!("wisa-connect://v1/import?resource=mcp&apps=claude,pi,mcode,omp&config={config}");
+    let url =
+        format!("wisa-connect://v1/import?resource=mcp&apps=claude,pi,mcode,omp&config={config}");
 
     let request = parse_deeplink_url(&url).expect("pi, mcode and ohmpi are valid MCP targets");
     let apps = parse_mcp_apps(request.apps.as_deref().unwrap()).unwrap();
@@ -1134,8 +1135,9 @@ fn test_parse_grokbuild_mcp_deeplink() {
 fn test_parse_mcode_and_pi_mcp_deeplink() {
     let config = r#"{"mcpServers":{"test":{"command":"echo"}}}"#;
     let config_b64 = BASE64_STANDARD.encode(config);
-    let url =
-        format!("wisa-connect://v1/import?resource=mcp&apps=mcode,pi&config={config_b64}&enabled=true");
+    let url = format!(
+        "wisa-connect://v1/import?resource=mcp&apps=mcode,pi&config={config_b64}&enabled=true"
+    );
 
     let request = parse_deeplink_url(&url).expect("parse MiniMax Code / Pi MCP deeplink");
     let apps = request.apps.as_deref().unwrap();

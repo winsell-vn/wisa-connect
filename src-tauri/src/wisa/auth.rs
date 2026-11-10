@@ -369,11 +369,11 @@ async fn await_callback(listener: TcpListener, expected_state: &str) -> Result<S
             .map_err(|error| format!("Không nhận được phản hồi từ Google: {error}"))?;
 
         let mut buffer = vec![0u8; 8192];
-        let read = match tokio::time::timeout(CONNECTION_IDLE_TIMEOUT, socket.read(&mut buffer)).await
-        {
-            Ok(Ok(count)) => count,
-            Ok(Err(_)) | Err(_) => continue,
-        };
+        let read =
+            match tokio::time::timeout(CONNECTION_IDLE_TIMEOUT, socket.read(&mut buffer)).await {
+                Ok(Ok(count)) => count,
+                Ok(Err(_)) | Err(_) => continue,
+            };
         if read == 0 {
             continue;
         }
@@ -393,7 +393,10 @@ async fn await_callback(listener: TcpListener, expected_state: &str) -> Result<S
             respond(
                 &mut socket,
                 "200 OK",
-                &callback_page("Chưa đăng nhập được", "Bạn đã huỷ đăng nhập Google. Quay lại WISA Connect và thử lại."),
+                &callback_page(
+                    "Chưa đăng nhập được",
+                    "Bạn đã huỷ đăng nhập Google. Quay lại WISA Connect và thử lại.",
+                ),
             )
             .await;
             return Err(format!("Google từ chối đăng nhập ({error})."));
@@ -402,7 +405,12 @@ async fn await_callback(listener: TcpListener, expected_state: &str) -> Result<S
         let Some(code) = param(&params, "code") else {
             // Not the callback (a favicon request, a preconnect): answer and
             // keep waiting.
-            respond(&mut socket, "404 Not Found", &callback_page("Không tìm thấy", "Đang chờ đăng nhập.")).await;
+            respond(
+                &mut socket,
+                "404 Not Found",
+                &callback_page("Không tìm thấy", "Đang chờ đăng nhập."),
+            )
+            .await;
             continue;
         };
 
@@ -410,7 +418,10 @@ async fn await_callback(listener: TcpListener, expected_state: &str) -> Result<S
             respond(
                 &mut socket,
                 "400 Bad Request",
-                &callback_page("Yêu cầu không hợp lệ", "Phiên đăng nhập không khớp. Quay lại WISA Connect và thử lại."),
+                &callback_page(
+                    "Yêu cầu không hợp lệ",
+                    "Phiên đăng nhập không khớp. Quay lại WISA Connect và thử lại.",
+                ),
             )
             .await;
             return Err("Phản hồi đăng nhập không khớp phiên hiện tại.".to_string());
@@ -419,7 +430,10 @@ async fn await_callback(listener: TcpListener, expected_state: &str) -> Result<S
         respond(
             &mut socket,
             "200 OK",
-            &callback_page("Đăng nhập thành công", "Bạn có thể đóng tab này và quay lại WISA Connect."),
+            &callback_page(
+                "Đăng nhập thành công",
+                "Bạn có thể đóng tab này và quay lại WISA Connect.",
+            ),
         )
         .await;
         return Ok(code.to_string());

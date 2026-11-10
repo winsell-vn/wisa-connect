@@ -8,7 +8,9 @@ use support::{ensure_test_home, reset_test_fs, test_mutex};
 
 fn cfg_path() -> PathBuf {
     let home = std::env::var("HOME").expect("HOME should be set by ensure_test_home");
-    PathBuf::from(home).join(".wisa-connect").join("config.json")
+    PathBuf::from(home)
+        .join(".wisa-connect")
+        .join("config.json")
 }
 
 #[test]
@@ -103,5 +105,7 @@ fn load_valid_v2_config_succeeds() {
     assert!(loaded
         .get_manager(&wisa_connect_lib::AppType::Claude)
         .is_some());
-    assert!(loaded.get_manager(&wisa_connect_lib::AppType::Codex).is_some());
+    assert!(loaded
+        .get_manager(&wisa_connect_lib::AppType::Codex)
+        .is_some());
 }

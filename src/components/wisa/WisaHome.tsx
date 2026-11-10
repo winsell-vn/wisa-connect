@@ -66,13 +66,14 @@ function KeyCard({ status }: { status: WisaStatus | null }) {
                 </span>
               </p>
               <p className="mt-2 text-xs leading-relaxed text-fg-3">
-                Một khoá dùng chung cho mọi client. Đổi khoá trên wisa.vn rồi bấm
-                “Cấu hình lại” là tất cả client cập nhật theo.
+                Một khoá dùng chung cho mọi client. Đổi khoá trên wisa.vn rồi
+                bấm “Cấu hình lại” là tất cả client cập nhật theo.
               </p>
             </>
           ) : (
             <p className="mt-1 text-xs leading-relaxed text-fg-3">
-              Chưa có khoá. Bấm “Cài tất cả” để WISA tạo khoá và cấu hình client.
+              Chưa có khoá. Bấm “Cài tất cả” để WISA tạo khoá và cấu hình
+              client.
             </p>
           )}
 
@@ -191,7 +192,9 @@ export function WisaHome() {
           );
         }
         for (const outcome of failed) {
-          toast.error(`${outcome.label}: ${outcome.message ?? "cấu hình thất bại"}`);
+          toast.error(
+            `${outcome.label}: ${outcome.message ?? "cấu hình thất bại"}`,
+          );
         }
         await load();
       } catch (error) {
@@ -331,9 +334,9 @@ export function WisaHome() {
           </section>
 
           <p className="px-1 text-xs leading-relaxed text-fg-3">
-            Sau khi cấu hình, hãy mở lại client đang chạy để nó đọc cấu hình mới.
-            Toàn bộ giao diện gốc của ứng dụng nằm sau “Chế độ nâng cao” ở thanh
-            bên trái.
+            Sau khi cấu hình, hãy mở lại client đang chạy để nó đọc cấu hình
+            mới. Toàn bộ giao diện gốc của ứng dụng nằm sau “Chế độ nâng cao” ở
+            thanh bên trái.
           </p>
         </div>
       </div>

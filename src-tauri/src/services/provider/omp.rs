@@ -255,7 +255,8 @@ mod tests {
             omp_config::get_providers().unwrap()["wisa-connect-test"]["models"][0]["id"],
             "b"
         );
-        ProviderService::remove_from_live_config(&state, AppType::Omp, "wisa-connect-test").unwrap();
+        ProviderService::remove_from_live_config(&state, AppType::Omp, "wisa-connect-test")
+            .unwrap();
         assert!(omp_config::get_providers().unwrap().is_empty());
         ProviderService::switch(&state, AppType::Omp, "wisa-connect-test").unwrap();
         assert_eq!(

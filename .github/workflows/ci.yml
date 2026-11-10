@@ -1,0 +1,108 @@
+name: CI
+
+# Continuous integration for WISA Connect.
+#
+# Two lanes:
+#   - renderer: pnpm typecheck, vitest unit tests, prettier check
+#   - rust:     cargo fmt --check, cargo clippy, cargo test
+#
+# The Rust lane needs system libraries for the Tauri webview on Linux, so it
+# installs them explicitly. Tauri also needs Linux CI runners to allow
+# unprivileged user namespaces; the runner configuration below does that.
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  NODE_VERSION: "22.12.0"
+
+jobs:
+  renderer:
+    name: Renderer — typecheck and test
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 10
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Typecheck
+        run: pnpm typecheck
+
+      - name: Format check
+        run: pnpm format:check
+
+      - name: Unit tests
+        # The suite runs 293 files; on a 2-core runner the default pool
+        # oversubscribes and individual tests start timing out. Cap the workers
+        # and give each test room instead.
+        run: pnpm test:unit -- --maxWorkers=2 --minWorkers=1 --testTimeout=30000
+
+  rust:
+    name: Rust — fmt, clippy and test
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install Tauri system dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends \
+            libwebkit2gtk-4.1-dev \
+            libappindicator3-dev \
+            librsvg2-dev \
+            patchelf \
+            build-essential \
+            curl \
+            wget \
+            file
+
+      - uses: dtolnay/rust-toolchain@master
+        with:
+          toolchain: "1.95"
+          components: rustfmt, clippy
+
+      - uses: swatinem/rust-cache@v2
+        with:
+          workspaces: src-tauri
+
+      # Tauri spawns a webview process. On Linux that needs unprivileged user
+      # namespaces; the stock runner allows them, but a hardened runner image
+      # may not.
+      - name: Enable unprivileged user namespaces
+        run: |
+          sudo sysctl -w kernel.unprivileged_userns_clone=1 || true
+
+      - name: Format check
+        working-directory: src-tauri
+        run: cargo fmt --all -- --check
+
+      - name: Clippy
+        working-directory: src-tauri
+        run: cargo clippy --all-targets --all-features -- -D warnings
+
+      - name: Test
+        working-directory: src-tauri
+        run: cargo test --all-features

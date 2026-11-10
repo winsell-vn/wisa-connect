@@ -150,10 +150,7 @@ async fn reveal_key(state: &WisaAuthState) -> Result<Option<String>, String> {
 /// `GET` with the current token, renewing once if the API says it is no longer
 /// valid. The access token lives only in memory, so a window left open past its
 /// lifetime would otherwise fail every call until relaunch.
-async fn get_with_retry(
-    state: &WisaAuthState,
-    path: &str,
-) -> Result<Value, client::ApiError> {
+async fn get_with_retry(state: &WisaAuthState, path: &str) -> Result<Value, client::ApiError> {
     let token = auth::access_token(state)
         .await
         .map_err(|message| client::ApiError {
@@ -305,10 +302,7 @@ fn pick_fast_model(models: &[String], main: &str) -> String {
 
 fn anthropic_settings(key: &str, main: &str, fast: &str) -> Value {
     let mut env = Map::new();
-    env.insert(
-        "ANTHROPIC_BASE_URL".into(),
-        json!(client::gateway_base()),
-    );
+    env.insert("ANTHROPIC_BASE_URL".into(), json!(client::gateway_base()));
     env.insert("ANTHROPIC_AUTH_TOKEN".into(), json!(key));
     env.insert("ANTHROPIC_MODEL".into(), json!(main));
     env.insert("ANTHROPIC_DEFAULT_SONNET_MODEL".into(), json!(main));
@@ -397,9 +391,10 @@ pub async fn wisa_status(
     let session = auth::ensure_session(auth.inner()).await?;
 
     let app_state = state.inner().clone();
-    let clients = tauri::async_runtime::spawn_blocking(move || status_for(&app_state, &all_targets()))
-        .await
-        .map_err(|error| format!("Không đọc được trạng thái client: {error}"))?;
+    let clients =
+        tauri::async_runtime::spawn_blocking(move || status_for(&app_state, &all_targets()))
+            .await
+            .map_err(|error| format!("Không đọc được trạng thái client: {error}"))?;
 
     let Some(session) = session else {
         return Ok(WisaStatus {
@@ -594,7 +589,9 @@ mod tests {
     fn codex_settings_point_at_the_v1_gateway() {
         let settings = codex_settings("ws_live_x", "gpt-5");
         assert_eq!(
-            settings.pointer("/auth/OPENAI_API_KEY").and_then(Value::as_str),
+            settings
+                .pointer("/auth/OPENAI_API_KEY")
+                .and_then(Value::as_str),
             Some("ws_live_x")
         );
         let config = settings.get("config").and_then(Value::as_str).unwrap();
@@ -619,8 +616,17 @@ mod tests {
     #[test]
     fn fast_model_falls_back_to_the_main_one() {
         let models = vec!["claude-sonnet-4-5".to_string()];
-        assert_eq!(pick_fast_model(&models, "claude-sonnet-4-5"), "claude-sonnet-4-5");
-        let with_flash = vec!["claude-sonnet-4-5".to_string(), "gemini-3-flash".to_string()];
-        assert_eq!(pick_fast_model(&with_flash, "claude-sonnet-4-5"), "gemini-3-flash");
+        assert_eq!(
+            pick_fast_model(&models, "claude-sonnet-4-5"),
+            "claude-sonnet-4-5"
+        );
+        let with_flash = vec![
+            "claude-sonnet-4-5".to_string(),
+            "gemini-3-flash".to_string(),
+        ];
+        assert_eq!(
+            pick_fast_model(&with_flash, "claude-sonnet-4-5"),
+            "gemini-3-flash"
+        );
     }
 }

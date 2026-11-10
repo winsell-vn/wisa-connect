@@ -4,6 +4,7 @@
 
 use super::utils::validate_url;
 use super::DeepLinkImportRequest;
+use super::DEEPLINK_SCHEME;
 use crate::error::AppError;
 use std::collections::HashMap;
 use url::Url;
@@ -19,9 +20,9 @@ pub fn parse_deeplink_url(url_str: &str) -> Result<DeepLinkImportRequest, AppErr
 
     // Validate scheme
     let scheme = url.scheme();
-    if scheme != "wisa" {
+    if scheme != DEEPLINK_SCHEME {
         return Err(AppError::InvalidInput(format!(
-            "Invalid scheme: expected 'wisa', got '{scheme}'"
+            "Invalid scheme: expected '{DEEPLINK_SCHEME}', got '{scheme}'"
         )));
     }
 

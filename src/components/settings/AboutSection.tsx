@@ -103,9 +103,7 @@ export function AboutSection({ isPortable }: AboutSectionProps) {
           : "";
 
       if (!displayVersion) {
-        await settingsApi.openExternal(
-          "https://wisa.vn/releases",
-        );
+        await settingsApi.openExternal("https://wisa.vn/releases");
         return;
       }
 

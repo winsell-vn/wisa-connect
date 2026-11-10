@@ -2949,8 +2949,11 @@ model_provider = "aihubmix"
         let compressed = session_dir.join("rollout-legacy-zst.jsonl.zst");
         fs::write(
             &compressed,
-            zstd::stream::encode_all(session_meta_line("s2", "wisa-connect-official").as_bytes(), 3)
-                .expect("encode"),
+            zstd::stream::encode_all(
+                session_meta_line("s2", "wisa-connect-official").as_bytes(),
+                3,
+            )
+            .expect("encode"),
         )
         .expect("write zst session");
         let third_party = session_dir.join("rollout-custom.jsonl");

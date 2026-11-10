@@ -1,0 +1,11 @@
+blank_issues_enabled: false
+contact_links:
+  - name: WISA gateway
+    url: https://wisa.vn
+    about: The gateway this client configures. Gateway issues are tracked separately.
+  - name: SocialHive
+    url: https://github.com/winsell-vn/social-hive
+    about: The sibling open-source project from WinSell.
+  - name: Security vulnerability
+    url: https://github.com/winsell-vn/wisa-connect/security/advisories/new
+    about: Report privately. Do not open a public issue for a vulnerability.

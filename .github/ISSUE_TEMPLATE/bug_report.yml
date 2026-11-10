@@ -1,0 +1,76 @@
+name: Bug report
+description: Something in WISA Connect does not work as documented.
+title: "[bug] "
+labels: ["bug", "needs-triage"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for the report.
+        **Do not use this form for security vulnerabilities** — see
+        [SECURITY.md](https://github.com/winsell-vn/wisa-connect/blob/main/SECURITY.md).
+
+  - type: dropdown
+    id: platform
+    attributes:
+      label: Platform
+      options:
+        - Windows
+        - macOS
+        - Linux
+        - Other / unknown
+    validations:
+      required: true
+
+  - type: dropdown
+    id: area
+    attributes:
+      label: Affected area
+      options:
+        - Sign-in / Google OAuth
+        - Provider configuration (Claude Code, Codex CLI, Claude Desktop)
+        - API key or credential storage
+        - Gateway connection / MCP transport
+        - App update (Tauri updater)
+        - UI / layout
+        - Build or packaging
+        - Documentation
+        - Other
+    validations:
+      required: true
+
+  - type: input
+    id: version
+    attributes:
+      label: App version
+      placeholder: 0.1.0
+    validations:
+      required: true
+
+  - type: textarea
+    id: description
+    attributes:
+      label: What happened
+      description: What did you observe, and what did you expect instead?
+    validations:
+      required: true
+
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Steps to reproduce
+      value: |
+        1.
+        2.
+        3.
+    validations:
+      required: true
+
+  - type: textarea
+    id: logs
+    attributes:
+      label: Log output
+      description: From the in-app log viewer, or the terminal. Redact API keys, tokens and passwords.
+      render: shell
+    validations:
+      required: false

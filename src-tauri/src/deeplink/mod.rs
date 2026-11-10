@@ -21,6 +21,9 @@ mod utils;
 #[cfg(test)]
 mod tests;
 
+/// Scheme registered for the app's deep links (see `tauri.conf.json`).
+pub const DEEPLINK_SCHEME: &str = "wisa-connect";
+
 use serde::{Deserialize, Serialize};
 use std::sync::atomic::{AtomicU64, Ordering};
 use std::sync::Mutex;

@@ -2697,7 +2697,10 @@ export const hermesProviderPresets: HermesProviderPreset[] = [
     icon: "minimax",
     iconColor: "#FF6B6B",
     suggestedDefaults: {
-      model: { default: "MiniMax-M3.1-Flash", provider: "wisa-connect-minimax" },
+      model: {
+        default: "MiniMax-M3.1-Flash",
+        provider: "wisa-connect-minimax",
+      },
     },
   },
   {

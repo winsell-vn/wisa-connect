@@ -81,10 +81,7 @@ pub async fn copy_text_to_clipboard(text: String) -> Result<bool, String> {
 pub async fn check_for_updates(handle: AppHandle) -> Result<bool, String> {
     handle
         .opener()
-        .open_url(
-            "https://wisa.vn/releases/latest",
-            None::<String>,
-        )
+        .open_url("https://wisa.vn/releases/latest", None::<String>)
         .map_err(|e| format!("打开更新页面失败: {e}"))?;
 
     Ok(true)
@@ -11683,8 +11680,16 @@ mod tests {
         let home = dirs::home_dir().expect("home should resolve");
         let bun_bin = home.join(".bun").join("bin");
         assert!(build_tool_search_paths("omp").contains(&bun_bin));
-        // Other Bun-installable tools keep their previous search set.
-        assert!(!build_tool_search_paths("gemini").contains(&bun_bin));
+        // Other Bun-installable tools keep their previous search set. The Bun
+        // global bin may also arrive through the ambient PATH (every tool
+        // inherits that), so only the omp-specific addition is asserted here.
+        let ambient: std::collections::HashSet<std::path::PathBuf> = effective_path_os()
+            .map(|raw| std::env::split_paths(&raw).collect())
+            .unwrap_or_default();
+        assert!(!build_tool_search_paths("gemini")
+            .into_iter()
+            .filter(|path| !ambient.contains(path))
+            .any(|path| path == bun_bin));
     }
 
     #[cfg(target_os = "windows")]

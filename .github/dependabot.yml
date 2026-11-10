@@ -1,0 +1,99 @@
+# Dependabot configuration for WISA Connect.
+#
+# The repository is a Tauri app: a pnpm renderer and a Cargo backend, plus
+# GitHub Actions for the release pipeline. Each ecosystem is declared
+# separately so a Cargo update never opens a second pull request.
+
+version: 2
+
+updates:
+  - package-ecosystem: npm
+    directory: /
+    schedule:
+      interval: weekly
+      day: monday
+      time: "04:00"
+      timezone: Asia/Ho_Chi_Minh
+    open-pull-requests-limit: 5
+    commit-message:
+      prefix: "deps(renderer)"
+    groups:
+      react:
+        applies-to: version-updates
+        patterns:
+          - "react"
+          - "react-dom"
+          - "@types/react"
+          - "@types/react-dom"
+      tauri:
+        applies-to: version-updates
+        patterns:
+          - "@tauri-apps/*"
+      testing:
+        applies-to: version-updates
+        patterns:
+          - "vitest"
+          - "@testing-library/*"
+          - "jsdom"
+          - "msw"
+      security:
+        applies-to: security-updates
+    labels:
+      - dependencies
+      - renderer
+
+  - package-ecosystem: cargo
+    directory: /src-tauri
+    schedule:
+      interval: weekly
+      day: monday
+      time: "04:00"
+      timezone: Asia/Ho_Chi_Minh
+    open-pull-requests-limit: 5
+    commit-message:
+      prefix: "deps(cargo)"
+    groups:
+      tauri:
+        applies-to: version-updates
+        patterns:
+          - "tauri"
+          - "tauri-plugin-*"
+          - "tauri-build"
+      tokio:
+        applies-to: version-updates
+        patterns:
+          - "tokio"
+          - "tokio-*"
+      http:
+        applies-to: version-updates
+        patterns:
+          - "reqwest"
+          - "hyper"
+          - "hyper-*"
+          - "http"
+          - "http-body*"
+          - "axum"
+          - "tower*"
+      security:
+        applies-to: security-updates
+    labels:
+      - dependencies
+      - rust
+
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: weekly
+      day: monday
+      time: "04:00"
+      timezone: Asia/Ho_Chi_Minh
+    commit-message:
+      prefix: "deps(actions)"
+    groups:
+      actions:
+        applies-to: version-updates
+        patterns:
+          - "*"
+    labels:
+      - dependencies
+      - ci
